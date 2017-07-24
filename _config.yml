@@ -17,11 +17,11 @@ description: Dev Python
 footer-links:
   dribbble:
   email: nicolas_mota@me.com
-  facebook: https://www.facebook.com/nicolas.mota1
+  facebook: nicolas.mota1
   flickr:
   github: nicolasmota
   instagram:
-  linkedin: https://www.linkedin.com/in/nicolasmota
+  linkedin: nicolasmota
   pinterest:
   rss: # just type anything here for a working RSS icon
   twitter: 
@@ -35,7 +35,7 @@ footer-links:
 disqus:
 
 # Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
-google_analytics:UA-103079030-1
+google_analytics: UA-103079030-1
 
 # Your website URL (e.g. http://akshayagarwal007.github.io)
 # Used for Sitemap.xml and your RSS feed

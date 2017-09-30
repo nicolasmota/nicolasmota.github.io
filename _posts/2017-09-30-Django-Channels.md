@@ -27,3 +27,10 @@ No final deste artigo você será capaz de:
 ## Iniciando
 
 Primeiro criamos um ambiente virtual com `pyenv` para isolar nossas dependências do projeto:
+
+{% highlight %}
+  mkdir exemplo_channels
+  cd exemplo_channels
+  pyenv virtualenv 3.6 exemplo_channels
+  pyenv activate exemplo_channels
+{% endhighlight %}

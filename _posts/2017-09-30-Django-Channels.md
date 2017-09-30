@@ -195,7 +195,28 @@ Crie um arquivo chamado `base.html` e adicione o seguinte código:
 
 Crie um outro arquivo chamado `user_list.html` na mesma pasta que o `base.html`:
 
-<BLOCO AQUI>
+
+{% highlight jinja %}
+
+{% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
+
+{% raw %}{% block content %}{% endraw %}{% raw %}{% endblock content %}{% endraw %}
+
+{% raw %}{% block script %}{% endraw %}
+  <script>
+    var socket = new WebSocket('ws://' + window.location.host + '/users/');
+
+    socket.onopen = function open() {
+      console.log('WebSockets connection created.');
+    };
+
+    if (socket.readyState == WebSocket.OPEN) {
+      socket.onopen();
+    }
+  </script>
+{% raw %}{% endblock script %}{% endraw %}
+
+{% endhighlight %}
 
 
 ## Views

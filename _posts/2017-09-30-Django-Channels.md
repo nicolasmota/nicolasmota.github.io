@@ -1,4 +1,12 @@
+---
+layout: post
+title: Aplicação em Real Time com Django Channels
+author: Nicolas Mota
+---
+
 # Django Channels
+
+---
 
 Neste tutorial vamos falar um pouco sobre [Django Channels](https://channels.readthedocs.io/en/stable/) e criar uma aplicação simples em tempo real de usuários logados.
 

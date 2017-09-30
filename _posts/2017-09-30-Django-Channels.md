@@ -113,8 +113,8 @@ Para um melhor entendimento, veja a documentação dos conceitos do Django Chann
 
 Vamos criar o nosso primeiro [consumer](https://channels.readthedocs.io/en/stable/generics.html), que lida com as conexões básicas entre o cliente e o servidor. Crie um novo arquivo chamado `exemplo_channels/exemplo/consumers.py`:
 
-``` 
 {% highlight python %}
+```
 import json
 from channels import Group
 from channels.auth import channel_session_user, channel_session_user_from_http

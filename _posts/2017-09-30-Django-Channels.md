@@ -299,7 +299,7 @@ Crie um novo arquivo `html` chamado `login.html` no diretório do app `exemplo_c
 {% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
 
 {% raw %}{% block content %}{% endraw %}
-  <form action="{% url 'exemplo:login' %}" method="post">
+  {% raw %}<form action="{% url 'exemplo:login' %}" method="post">{% endraw %}
     {% raw %}{% csrf_token %}{% endraw %}
     {% raw %{% for field in form %}{% endraw %}
       <div>
@@ -309,7 +309,7 @@ Crie um novo arquivo `html` chamado `login.html` no diretório do app `exemplo_c
     {% raw %}{% endfor %}{% endraw %}
     <button type="submit">Log in</button>
   </form>
-  <p>Don't have an account? <a href="{% url 'exemplo:sign_up' %}">Sign up!</a></p>
+  <p>Don't have an account? {% raw %}<a href="{% url 'exemplo:sign_up' %}">Sign up!</a></p>{% endraw %}
 {% raw %}{% endblock content %}{% endraw %}
 
 {% endhighlight %}

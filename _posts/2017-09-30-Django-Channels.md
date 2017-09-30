@@ -171,6 +171,7 @@ Vamos escrever `HTML` simples que possa se comunicar com o nosso servidor via We
 Crie um arquivo chamado `base.html` e adicione o seguinte código:
 
 {% highlight jinja %}
+
 ```
 <!doctype html>
 <html lang="en">

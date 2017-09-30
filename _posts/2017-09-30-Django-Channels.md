@@ -170,8 +170,7 @@ Vamos escrever `HTML` simples que possa se comunicar com o nosso servidor via We
 
 Crie um arquivo chamado `base.html` e adicione o seguinte código:
 
-{% highlight jinja %}
-
+{% highlight django %}
 ```
 <!doctype html>
 <html lang="en">
@@ -196,7 +195,7 @@ Crie um arquivo chamado `base.html` e adicione o seguinte código:
 
 Crie um outro arquivo chamado `user_list.html` na mesma pasta que o `base.html`:
 
-{% highlight jinja %}
+{% highlight django %}
 ```
 {% extends 'exemplo/base.html' %}
 
@@ -293,7 +292,7 @@ Primeiramente, precisamos criar uma página para que o usuário consiga se cadas
 Crie um novo arquivo `html` chamado `login.html` no diretório do app `exemplo_channels/exemplo/templates/exemplo`:
 
 
-{% highlight jinja %}
+{% highlight django %}
 ```
 
 {% extends 'exemplo/base.html' %}
@@ -358,7 +357,7 @@ Agora precisamos criar uma forma do usuário poder se cadastrar. Da mesma forma 
 Primeiro criamos o `template` de cadastro chamado `sign_up.html` no diretório: `exemplo_channels/exemplo/templates/exemplo`
 
 
-{% highlight jinja %}
+{% highlight django %}
 ```
 
 {% extends 'exemplo/base.html' %}
@@ -467,7 +466,7 @@ Observe que nós adicionamos `decorators` às funções para obter o usuário da
 
 Agora precisamos atualizar nosso template `exemplo_channels/exemplo/templates/exemplo/user_list.html` para adicionar a listagem dos usuários e também para que ele possa realizar o logout do nosso app, ficando da seguinte maneira:
 
-{% highlight jinja %}
+{% highlight django %}
 ```
 {% extends 'exemplo/base.html' %}
 

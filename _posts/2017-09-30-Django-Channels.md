@@ -293,7 +293,26 @@ Primeiramente, precisamos criar uma página para que o usuário consiga se cadas
 Crie um novo arquivo `html` chamado `login.html` no diretório do app `exemplo_channels/exemplo/templates/exemplo`:
 
 
-<BLOCO AQUI>
+{% highlight jinja %}
+
+
+{% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
+
+{% raw %}{% block content %}{% endraw %}
+  <form action="{% raw %}{% url 'exemplo:login' %}{% endraw %}" method="post">
+    {% raw %}{% csrf_token %}{% endraw %}
+    {% raw %{% for field in form %}{% endraw %}
+      <div>
+        {% raw %}{{ field.label_tag }}{% endraw %}
+        {% raw %}{{ field }}{% endraw %}
+      </div>
+    {% raw %}{% endfor %}{% endraw %}
+    <button type="submit">Log in</button>
+  </form>
+  <p>Don't have an account? <a href="{% raw %}{% url 'exemplo:sign_up' %}{% endraw %}">Sign up!</a></p>
+{% raw %}{% endblock content %}{% endraw %}
+
+{% endhighlight %}
 
 
 Depois, atualize sua `exemplo_channels/exemplo/views.py` para que contemple as funções de `login` e `logout`, ficando assim:

@@ -8,7 +8,7 @@ author: Nicolas Mota
 
 ---
 
-Neste tutorial vamos falar um pouco sobre [Django Channels](https://channels.readthedocs.io/en/stable/) e criar uma aplicação simples em tempo real de usuários logados.
+Neste tutorial vamos falar um pouco sobre Django Channels e criar uma aplicação simples em tempo real de usuários logados.
 
 ## Requisitos
 

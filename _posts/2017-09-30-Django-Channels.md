@@ -357,8 +357,25 @@ Agora precisamos criar uma forma do usuário poder se cadastrar. Da mesma forma 
 
 Primeiro criamos o `template` de cadastro chamado `sign_up.html` no diretório: `exemplo_channels/exemplo/templates/exemplo`
 
+{% highlight jinja %}
 
-<BLOCO AQUI>
+{% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
+
+{% raw %}{% block content %}{% endraw %}
+  <form action="{% raw %}{% url 'exemplo:sign_up' %}{% endraw %}" method="post">
+    {% raw %}{% csrf_token %}{% endraw %}
+    {% raw %}{% for field in form %}{% endraw %}
+      <div>
+        {% raw %}{{ field.label_tag }}{% endraw %}
+        {% raw %}{{ field }}{% endraw %}
+      </div>
+    {% raw %}{% endfor %}{% endraw %}
+    <button type="submit">Sign up</button>
+    <p>Already have an account? <a href="{% raw %}{% url 'exemplo:login' %}{% endraw %}">Log in!</a></p>
+  </form>
+{% raw %}{% endblock content %}{% endraw %}
+
+{% endhighlight %}
 
 Agora criamos uma função com a funcionalidade de cadastrar o usuário em nosso app, adicione a seguinte função na views:
 

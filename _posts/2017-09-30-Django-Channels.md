@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Criando uma aplicação Real Time com Django Channels
+title: Aplicação Real Time com Django Channels
 author: Nicolas Mota
 published: true
 ---

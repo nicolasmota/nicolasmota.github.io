@@ -673,9 +673,9 @@ Finalmente finalizamos o código, agora é a parte mais aguardada, estamos pront
 
 Execute o servidor Django rodando o comando `runserver`:
 
-
+{% highlight bash %}
 (exemplo_channels)$ python manage.py runserver
-
+{% endhighlight %}
 
 Abra em `porn mode`(ou modo anonimo) janelas em seu navegador e acesse o link de login em uma e a listagem em outra, visualize lado a lado uma janela com a listagem dos usuários e realize logins na outra janela e veja os status mudando. Teste o login com multiplos usuários.
 

@@ -114,7 +114,7 @@ Para um melhor entendimento, veja a documentação dos conceitos do Django Chann
 Vamos criar o nosso primeiro [consumer](https://channels.readthedocs.io/en/stable/generics.html), que lida com as conexões básicas entre o cliente e o servidor. Crie um novo arquivo chamado `exemplo_channels/exemplo/consumers.py`:
 
 {% highlight django %}
-```
+
 import json
 from channels import Group
 from channels.auth import channel_session_user, channel_session_user_from_http
@@ -140,7 +140,7 @@ def ws_disconnect(message):
         })
     })
     Group('users').discard(message.reply_channel)
-``` 
+ 
 {% endhighlight %}
 
 
@@ -149,7 +149,7 @@ Os consumers são a contrapartida das Views do Django. Qualquer usuário que se 
 Em seguida, vamos configurar as `routes`, que funcionam quase da mesma maneira que a configuração do Django URL, adicionando o seguinte código a um novo arquivo chamado `exemplo_channels/routing.py`:
 
 {% highlight django %}
-```
+
 from channels.routing import route
 from exemplo.consumers import ws_connect, ws_disconnect
 
@@ -158,7 +158,7 @@ channel_routing = [
     route('websocket.connect', ws_connect),
     route('websocket.disconnect', ws_disconnect),
 ]
-``` 
+ 
 {% endhighlight %}
 
 Perceba que definimos `channel_routing` em vez de `urlpatterns` e `route()` em vez de `url()`. Observe que ligamos nossos consumers ao WebSockets.
@@ -171,7 +171,7 @@ Vamos escrever `HTML` simples que possa se comunicar com o nosso servidor via We
 Crie um arquivo chamado `base.html` e adicione o seguinte código:
 
 {% highlight jinja %}
-```
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -190,13 +190,13 @@ Crie um arquivo chamado `base.html` e adicione o seguinte código:
   {% raw %}{% block script %}{% endblock script %}{% endraw %}
 </body>
 </html>
-``` 
+ 
 {% endhighlight %}
 
 Crie um outro arquivo chamado `user_list.html` na mesma pasta que o `base.html`:
 
 {% highlight jinja %}
-```
+
 {% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
 
 {% raw %}{% block content %}{% endblock content %}{% endraw %}
@@ -214,7 +214,7 @@ Crie um outro arquivo chamado `user_list.html` na mesma pasta que o `base.html`:
     }
   </script>
 {% raw %}{% endblock script %}{% endraw %}
-```
+
 {% endhighlight %}
 
 
@@ -223,19 +223,19 @@ Crie um outro arquivo chamado `user_list.html` na mesma pasta que o `base.html`:
 Vamos configurar agora a `views` para que possa renderizar nossos htmls no seguinte diretório: `exemplo_channels/exemplo/views.py`:
 
 {% highlight django %}
-```
+
 from django.shortcuts import render
 
 
 def user_list(request):
     return render(request, 'exemplo/user_list.html')
-``` 
+ 
 {% endhighlight %}
 
 Feito isso, crie um arquivo de urls no app do exemplo `exemplo_channels/exemplo/urls.py`:
 
 {% highlight django %}
-```
+
 from django.conf.urls import url
 from exemplo.views import user_list
 
@@ -243,14 +243,14 @@ from exemplo.views import user_list
 urlpatterns = [
     url(r'^$', user_list, name='user_list'),
 ]
-``` 
+ 
 {% endhighlight %}
 
 
 Altere o arquivo de `url` raiz do projeto para que possa apontar para nosso app de exemplo em: `exemplo_channels/exemplo_channels/urls.py`:
 
 {% highlight django %}
-```
+
 from django.conf.urls import include, url
 from django.contrib import admin
 
@@ -258,7 +258,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('exemplo.urls', namespace='exemplo')),
 ]
-```
+
 {% endhighlight %}
 
 
@@ -267,19 +267,19 @@ urlpatterns = [
 Volte para a pasta raiz do projeto e roda a sua aplicação django:
 
 {% highlight bash %}
-```
+
 (exemplo_channels)$ python manage.py runserver
-```
+
 {% endhighlight %}
 
 Quando você acessar `http://localhost:8000/`, você verá a seguinte mensagem printada no terminal: 
 
 {% highlight bash %}
-``` 
+ 
 [2017/09/30 13:51:37] HTTP GET / 200 [0.02, 127.0.0.1:52757]
 [2017/09/30 13:51:39] WebSocket HANDSHAKING /users/ [127.0.0.1:52789]
 [2017/09/30 13:51:43] WebSocket DISCONNECT /users/ [127.0.0.1:52789]
-```
+
 {% endhighlight %}
 
 ## Autenticação de usuário
@@ -293,7 +293,7 @@ Crie um novo arquivo `html` chamado `login.html` no diretório do app `exemplo_c
 
 
 {% highlight jinja %}
-```
+
 
 {% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
 
@@ -310,14 +310,14 @@ Crie um novo arquivo `html` chamado `login.html` no diretório do app `exemplo_c
   </form>
   <p>Don't have an account? <a href="{% raw %}{% url 'exemplo:sign_up' %}{% endraw %}">Sign up!</a></p>
 {% raw %}{% endblock content %}{% endraw %}
-```
+
 {% endhighlight %}
 
 
 Depois, atualize sua `exemplo_channels/exemplo/views.py` para que contemple as funções de `login` e `logout`, ficando assim:
 
 {% highlight django %}
-```
+
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse
@@ -344,7 +344,7 @@ def logout(request):
     logout(request)
     return redirect(reverse('exemplo:login'))
 
-```
+
 {% endhighlight %}
 
 Como dito anteriormente, o Django vem com forms que oferecem suporte à autenticações simples. Podemos usar o `AuthenticationForm` para gerenciar o login do usuário. Este formulário verifica o nome de usuário e a senha fornecidos e, em seguida, retorna um objeto do tipo `User` se um usuário validado for encontrado. Feito isso, é realizado um redirect para a url de listagem de usuários.
@@ -358,12 +358,12 @@ Primeiro criamos o `template` de cadastro chamado `sign_up.html` no diretório: 
 
 
 {% highlight jinja %}
-```
+
 
 {% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
 
 {% raw %}{% block content %}{% endraw %}
-  <form action="{% url 'exemplo:sign_up' %}{% endraw %}" method="post">
+  <form action="{% raw %}{% url 'exemplo:sign_up' %}{% endraw %}" method="post">
     {% raw %}{% csrf_token %}{% endraw %}
     {% raw %}{% for field in form %}{% endraw %}
       <div>
@@ -376,13 +376,13 @@ Primeiro criamos o `template` de cadastro chamado `sign_up.html` no diretório: 
   </form>
 {% raw %}{% endblock content %}{% endraw %}
 
-```
+
 {% endhighlight %}
 
 Agora criamos uma função com a funcionalidade de cadastrar o usuário em nosso app, adicione a seguinte função na views:
 
 {% highlight django %}
-```
+
 def sign_up(request):
     form = UserCreationForm()
     if request.method == 'POST':
@@ -393,21 +393,21 @@ def sign_up(request):
         else:
             print(form.errors)
     return render(request, 'exemplo/sign_up.html', {'form': form})
-``` 
+ 
 {% endhighlight %}
 
 Note que usamos mais um form nativo do Django, chamado `UserCreationForm`, como dito anteriormente, o Django disponibiliza algumas facilidades para que seja feita de maneira rápida coisas simples. Lembre-se de importar o `UserCreationForm`na `views`
 
 {% highlight django %}
-```
+
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-``` 
+ 
 {% endhighlight %}
 
 Feito isso, precisamos atualizar novamente o arquivo de urls do app para incluir nossas funções da `views`, `exemplo_channels/exemplo/urls.py`:
 
 {% highlight django %}
-```
+
 from django.conf.urls import url
 from exemplo.views import login, logout, sign_up, user_list
 
@@ -418,7 +418,7 @@ urlpatterns = [
     url(r'^sign_up/$', sign_up, name='sign_up'),
     url(r'^$', user_list, name='user_list')
 ]
-``` 
+ 
 {% endhighlight %}
 
 
@@ -433,7 +433,7 @@ Nós temos um sistema de criação e autenticação de usuário funcionando, mas
 Primeiro, vamos atualizar nosso consumer para que seja feito os envios das mensagens, vamos alterar o arquivo `exemplo_channels/exemplo/consumers.py`, ficando da seguinte maneira:
 
 {% highlight django %}
-```
+
 import json
 from channels import Group
 from channels.auth import channel_session_user, channel_session_user_from_http
@@ -459,7 +459,7 @@ def ws_disconnect(message):
         })
     })
     Group('users').discard(message.reply_channel)
-```
+
 {% endhighlight %}
 
 Observe que nós adicionamos `decorators` às funções para obter o usuário da sessão do Django. Além disso, todas as mensagens devem ser serializadas em JSON.
@@ -467,7 +467,7 @@ Observe que nós adicionamos `decorators` às funções para obter o usuário da
 Agora precisamos atualizar nosso template `exemplo_channels/exemplo/templates/exemplo/user_list.html` para adicionar a listagem dos usuários e também para que ele possa realizar o logout do nosso app, ficando da seguinte maneira:
 
 {% highlight jinja %}
-```
+
 {% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
 
 {% raw %}{% block content %}{% endraw %}
@@ -513,7 +513,7 @@ Agora precisamos atualizar nosso template `exemplo_channels/exemplo/templates/ex
   </script>
 {% raw %}{% endblock script %}{% endraw %}
 
-```
+
 {% endhighlight %}
 
 
@@ -522,7 +522,7 @@ Observe que adicionamos um `event listerner` ao nosso WebSocket que pode lidar c
 O Django não rastreia se um usuário está logado, então precisamos criar uma `model` simples para fazer isso por nós. Crie uma `model` chamada `LoggedInUser` onde ela faz uma relação de 1 pra 1 com a `model`de `User` nativo do Django. Crie as models em nosso app em `exemplo_channels/exemplo/models.py`:
 
 {% highlight django %}
-```
+
 from django.conf import settings
 from django.db import models
 
@@ -530,7 +530,7 @@ from django.db import models
 class LoggedInUser(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, related_name='logged_in_user')
-```
+
 {% endhighlight %}
 
 Nosso app criará uma instância de `LoggedInUser` quando um usuário efetuar login e o app excluirá a instância quando o usuário efetuar o logout.
@@ -538,16 +538,16 @@ Nosso app criará uma instância de `LoggedInUser` quando um usuário efetuar lo
 Agora precisamos atualizar nossa base de dados para que nossa model seja realmente criada, pra isso rodamos o comando do django `makemigrations` para criar o `schema` da tabela e o comando `migrate` para que seja criada a tabela em si.
 
 {% highlight bash %}
-```
+
 (exemplo_channels)$ python manage.py makemigrations
 (exemplo_channels)$ python manage.py migrate
-```
+
 {% endhighlight %}
 
 Em seguinda, precisamos atualizar nossa `views.py` novamente para que seja renderizado uma lista de usuários para que seja exibido em nosso template. Alteramos o seguinte arquivo `exemplo_channels/exemplo/views.py` ficando da seguinte maneira:
 
 {% highlight django %}
-```
+
 from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
@@ -599,7 +599,7 @@ def sign_up(request):
             print(form.errors)
     return render(request, 'exemplo/sign_up.html', {'form': form})
 
-``` 
+ 
 {% endhighlight %}
 
 Se um usuário tiver um registro de `LoggedInUser` associado ao seu `User` então mostramos o status `Online`, caso contrario, exibimos `Offline`. Perceba também a adição do `decorator` `login_required` para que as funções sejam restritas somente a usuários logados. Caso o usuário esteja deslogado, ele é redirecionado para a url de login informada no parametro.
@@ -608,10 +608,10 @@ Não se esqueça de importar as novas funções:
 
 {% highlight django %}
 
-```
+
 from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
-```
+
 {% endhighlight %}
 
 ## Signals
@@ -623,7 +623,7 @@ Novamente o Django nos da um presentinho. Existe um recurso chamado `signals`, q
 Dentro da pasta `exemplo_channels/exemplo`, criamos um novo arquivo chamado `signals.py`:
 
 {% highlight django %}
-```
+
 from django.contrib.auth import user_logged_in, user_logged_out
 from django.dispatch import receiver
 from exemplo.models import LoggedInUser
@@ -637,14 +637,14 @@ def on_user_login(sender, **kwargs):
 @receiver(user_logged_out)
 def on_user_logout(sender, **kwargs):
     LoggedInUser.objects.filter(user=kwargs.get('user')).delete()
-```
+
 {% endhighlight %}
 
 
 Precisamos também fazer com que os `signals` fiquem disponiveis para nosso app, pra isso, precisamos alterar o arquivo `apps.py` de nosso app e importar nosso arquivo `signals`:
 
 {% highlight django %}
-```
+
 from django.apps import AppConfig
 
 
@@ -654,15 +654,15 @@ class exemploConfig(AppConfig):
     def ready(self):
         import exemplo.signals
 
-```
+
 {% endhighlight %}
 
 e por ultimo, atualizar o arquivo `exemplo_channels/exemplo/__init__.py` para que interprete nossa classe:
 
 {% highlight django %}
-``` 
+ 
 default_app_config = 'exemplo.apps.exemploConfig'
-```
+
 {% endhighlight %}
 
 
@@ -672,9 +672,9 @@ Finalmente finalizamos o código, agora é a parte mais aguardada, estamos pront
 
 Execute o servidor Django rodando o comando `runserver`:
 
-```
+
 (exemplo_channels)$ python manage.py runserver
-```
+
 
 Abra em `porn mode`(ou modo anonimo) janelas em seu navegador e acesse o link de login em uma e a listagem em outra, visualize lado a lado uma janela com a listagem dos usuários e realize logins na outra janela e veja os status mudando. Teste o login com multiplos usuários.
 

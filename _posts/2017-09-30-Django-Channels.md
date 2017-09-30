@@ -300,7 +300,7 @@ Crie um novo arquivo `html` chamado `login.html` no diretório do app `exemplo_c
 {% raw %}{% block content %}{% endraw %}
   <form action="{% raw %}{% url 'exemplo:login' %}{% endraw %}" method="post">
     {% raw %}{% csrf_token %}{% endraw %}
-    {% for field in form %}{% endraw %}
+    {% raw %{% for field in form %}{% endraw %}
       <div>
         {% raw %}{{ field.label_tag }}{% endraw %}
         {% raw %}{{ field }}{% endraw %}

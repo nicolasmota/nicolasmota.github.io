@@ -464,7 +464,57 @@ Observe que nós adicionamos `decorators` às funções para obter o usuário da
 
 Agora precisamos atualizar nosso template `exemplo_channels/exemplo/templates/exemplo/user_list.html` para adicionar a listagem dos usuários e também para que ele possa realizar o logout do nosso app, ficando da seguinte maneira:
 
-<BLOCO AQUI>
+
+
+{% highlight jinja %}
+
+{% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
+
+{% raw %}{% block content %}{% endraw %}
+  <a href="{% raw %}{% url 'exemplo:logout' %}{% endraw %}">Log out</a>
+  <br>
+  <ul>
+    {% raw %}{% for user in users %}{% endraw %}
+      <!-- NOTA: Perceba o scape no username, isso evita ataques XSS. -->
+      <li data-username="{% raw %}{{ user.username|escape }}{% endraw %}">
+        {% raw %}{{ user.username|escape }}: {{ user.status|default:'Offline' }}{% endraw %}
+      </li>
+    {% raw %}{% endfor %}{% endraw %}
+  </ul>
+{% raw %}{% endblock content %}{% endraw %}
+
+{% raw %}{% block script %}{% endraw %}
+  <script>
+    var socket = new WebSocket('ws://' + window.location.host + '/users/');
+
+    socket.onopen = function open() {
+      console.log('WebSockets connection created.');
+    };
+
+    socket.onmessage = function message(event) {
+      var data = JSON.parse(event.data);
+      // NOTA: Perceba o scape no username, isso evita ataques XSS.
+      var username = encodeURI(data['username']);
+      var user = $('li').filter(function () {
+        return $(this).data('username') == username;
+      });
+
+      if (data['is_logged_in']) {
+        user.html(username + ': Online');
+      }
+      else {
+        user.html(username + ': Offline');
+      }
+    };
+
+    if (socket.readyState == WebSocket.OPEN) {
+      socket.onopen();
+    }
+  </script>
+{% raw %}{% endblock script %}{% endraw %}
+
+
+{% endhighlight %}
 
 
 Observe que adicionamos um `event listerner` ao nosso WebSocket que pode lidar com mensagens do servidor. Quando recebemos uma mensagem, analisamos os dados JSON, procuramos pelo elemento `<li>` para o usuário fornecido e atualizamos o status desse usuário.

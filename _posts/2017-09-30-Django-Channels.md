@@ -170,7 +170,28 @@ Vamos escrever `HTML` simples que possa se comunicar com o nosso servidor via We
 
 Crie um arquivo chamado `base.html` e adicione o seguinte código:
 
-<BLOCO AQUI>
+{% highlight jinja %}
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <title>Exemplo com Django Channels</title>
+</head>
+<body>
+  <div class="container">
+    <br>
+    {% raw %}{% block content %}{% endblock content %}{% endraw %}
+  </div>
+  <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+  {% raw %}{% block script %}{% endblock script %}{% endraw %}
+</body>
+</html>
+ 
+{% endhighlight %}
 
 Crie um outro arquivo chamado `user_list.html` na mesma pasta que o `base.html`:
 

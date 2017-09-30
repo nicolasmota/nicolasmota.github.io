@@ -68,7 +68,7 @@ Abra uma janela nova do terminal e deixe rodando o server do redis:
 Abra o arquivo `esettings.py e insira o novo app criado e o django channels em `INSTALLED_APPS`:
 
 
-{% highlight python %}
+{% highlight django %}
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -85,7 +85,7 @@ INSTALLED_APPS = [
 
 Insira o `CHANNEL_LAYERS` na `settings.py`:
 
-{% highlight python %}
+{% highlight django %}
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'asgi_redis.RedisChannelLayer',
@@ -113,7 +113,7 @@ Para um melhor entendimento, veja a documentação dos conceitos do Django Chann
 
 Vamos criar o nosso primeiro [consumer](https://channels.readthedocs.io/en/stable/generics.html), que lida com as conexões básicas entre o cliente e o servidor. Crie um novo arquivo chamado `exemplo_channels/exemplo/consumers.py`:
 
-{% highlight python %}
+{% highlight django %}
 ```
 import json
 from channels import Group
@@ -148,7 +148,7 @@ Os consumers são a contrapartida das Views do Django. Qualquer usuário que se 
 
 Em seguida, vamos configurar as `routes`, que funcionam quase da mesma maneira que a configuração do Django URL, adicionando o seguinte código a um novo arquivo chamado `exemplo_channels/routing.py`:
 
-{% highlight python %}
+{% highlight django %}
 ```
 from channels.routing import route
 from exemplo.consumers import ws_connect, ws_disconnect
@@ -222,7 +222,7 @@ Crie um outro arquivo chamado `user_list.html` na mesma pasta que o `base.html`:
 
 Vamos configurar agora a `views` para que possa renderizar nossos htmls no seguinte diretório: `exemplo_channels/exemplo/views.py`:
 
-{% highlight python %}
+{% highlight django %}
 ```
 from django.shortcuts import render
 
@@ -234,7 +234,7 @@ def user_list(request):
 
 Feito isso, crie um arquivo de urls no app do exemplo `exemplo_channels/exemplo/urls.py`:
 
-{% highlight python %}
+{% highlight django %}
 ```
 from django.conf.urls import url
 from exemplo.views import user_list
@@ -249,7 +249,7 @@ urlpatterns = [
 
 Altere o arquivo de `url` raiz do projeto para que possa apontar para nosso app de exemplo em: `exemplo_channels/exemplo_channels/urls.py`:
 
-{% highlight python %}
+{% highlight django %}
 ```
 from django.conf.urls import include, url
 from django.contrib import admin
@@ -316,7 +316,7 @@ Crie um novo arquivo `html` chamado `login.html` no diretório do app `exemplo_c
 
 Depois, atualize sua `exemplo_channels/exemplo/views.py` para que contemple as funções de `login` e `logout`, ficando assim:
 
-{% highlight python %}
+{% highlight django %}
 ```
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -381,7 +381,7 @@ Primeiro criamos o `template` de cadastro chamado `sign_up.html` no diretório: 
 
 Agora criamos uma função com a funcionalidade de cadastrar o usuário em nosso app, adicione a seguinte função na views:
 
-{% highlight python %}
+{% highlight django %}
 ```
 def sign_up(request):
     form = UserCreationForm()
@@ -398,7 +398,7 @@ def sign_up(request):
 
 Note que usamos mais um form nativo do Django, chamado `UserCreationForm`, como dito anteriormente, o Django disponibiliza algumas facilidades para que seja feita de maneira rápida coisas simples. Lembre-se de importar o `UserCreationForm`na `views`
 
-{% highlight python %}
+{% highlight django %}
 ```
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 ``` 
@@ -406,7 +406,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 Feito isso, precisamos atualizar novamente o arquivo de urls do app para incluir nossas funções da `views`, `exemplo_channels/exemplo/urls.py`:
 
-{% highlight python %}
+{% highlight django %}
 ```
 from django.conf.urls import url
 from exemplo.views import login, logout, sign_up, user_list
@@ -432,7 +432,7 @@ Nós temos um sistema de criação e autenticação de usuário funcionando, mas
 
 Primeiro, vamos atualizar nosso consumer para que seja feito os envios das mensagens, vamos alterar o arquivo `exemplo_channels/exemplo/consumers.py`, ficando da seguinte maneira:
 
-{% highlight python %}
+{% highlight django %}
 ```
 import json
 from channels import Group
@@ -521,7 +521,7 @@ Observe que adicionamos um `event listerner` ao nosso WebSocket que pode lidar c
 
 O Django não rastreia se um usuário está logado, então precisamos criar uma `model` simples para fazer isso por nós. Crie uma `model` chamada `LoggedInUser` onde ela faz uma relação de 1 pra 1 com a `model`de `User` nativo do Django. Crie as models em nosso app em `exemplo_channels/exemplo/models.py`:
 
-{% highlight python %}
+{% highlight django %}
 ```
 from django.conf import settings
 from django.db import models
@@ -546,7 +546,7 @@ Agora precisamos atualizar nossa base de dados para que nossa model seja realmen
 
 Em seguinda, precisamos atualizar nossa `views.py` novamente para que seja renderizado uma lista de usuários para que seja exibido em nosso template. Alteramos o seguinte arquivo `exemplo_channels/exemplo/views.py` ficando da seguinte maneira:
 
-{% highlight python %}
+{% highlight django %}
 ```
 from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
@@ -606,7 +606,7 @@ Se um usuário tiver um registro de `LoggedInUser` associado ao seu `User` entã
 
 Não se esqueça de importar as novas funções:
 
-{% highlight python %}
+{% highlight django %}
 
 ```
 from django.contrib.auth import get_user_model, login, logout
@@ -622,7 +622,7 @@ Novamente o Django nos da um presentinho. Existe um recurso chamado `signals`, q
 
 Dentro da pasta `exemplo_channels/exemplo`, criamos um novo arquivo chamado `signals.py`:
 
-{% highlight python %}
+{% highlight django %}
 ```
 from django.contrib.auth import user_logged_in, user_logged_out
 from django.dispatch import receiver
@@ -659,7 +659,7 @@ class exemploConfig(AppConfig):
 
 e por ultimo, atualizar o arquivo `exemplo_channels/exemplo/__init__.py` para que interprete nossa classe:
 
-{% highlight python %}
+{% highlight django %}
 ``` 
 default_app_config = 'exemplo.apps.exemploConfig'
 ```

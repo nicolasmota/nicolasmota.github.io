@@ -311,7 +311,7 @@ Crie um novo arquivo `html` chamado `login.html` no diretório do app `exemplo_c
   <p>Don't have an account? <a href="{% url 'exemplo:sign_up' %}">Sign up!</a></p>
 {% endblock content %}
 ```
-{% endhighlight %}
+{% endraw %}
 
 
 Depois, atualize sua `exemplo_channels/exemplo/views.py` para que contemple as funções de `login` e `logout`, ficando assim:
@@ -377,7 +377,7 @@ Primeiro criamos o `template` de cadastro chamado `sign_up.html` no diretório: 
 {% endblock content %}
 
 ```
-{% endhighlight %}
+{% endraw %}
 
 Agora criamos uma função com a funcionalidade de cadastrar o usuário em nosso app, adicione a seguinte função na views:
 
@@ -514,7 +514,7 @@ Agora precisamos atualizar nosso template `exemplo_channels/exemplo/templates/ex
 {% endblock script %}
 
 ```
-{% endhighlight %}
+{% endraw %}
 
 
 Observe que adicionamos um `event listerner` ao nosso WebSocket que pode lidar com mensagens do servidor. Quando recebemos uma mensagem, analisamos os dados JSON, procuramos pelo elemento `<li>` para o usuário fornecido e atualizamos o status desse usuário.

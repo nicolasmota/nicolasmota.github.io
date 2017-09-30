@@ -170,52 +170,11 @@ Vamos escrever `HTML` simples que possa se comunicar com o nosso servidor via We
 
 Crie um arquivo chamado `base.html` e adicione o seguinte código:
 
-{% highlight django %}
-
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-  <title>Exemplo com Django Channels</title>
-</head>
-<body>
-  <div class="container">
-    <br>
-    {% raw %}{% block content %}{% endblock content %}{% endraw %}
-  </div>
-  <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
-  {% raw %}{% block script %}{% endblock script %}{% endraw %}
-</body>
-</html>
- 
-{% endhighlight %}
+<BLOCO AQUI>
 
 Crie um outro arquivo chamado `user_list.html` na mesma pasta que o `base.html`:
 
-{% highlight django %}
-
-{% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
-
-{% raw %}{% block content %}{% endblock content %}{% endraw %}
-
-{% raw %}{% block script %}{% endraw %}
-  <script>
-    var socket = new WebSocket('ws://' + window.location.host + '/users/');
-
-    socket.onopen = function open() {
-      console.log('WebSockets connection created.');
-    };
-
-    if (socket.readyState == WebSocket.OPEN) {
-      socket.onopen();
-    }
-  </script>
-{% raw %}{% endblock script %}{% endraw %}
-
-{% endhighlight %}
+<BLOCO AQUI>
 
 
 ## Views
@@ -292,26 +251,7 @@ Primeiramente, precisamos criar uma página para que o usuário consiga se cadas
 Crie um novo arquivo `html` chamado `login.html` no diretório do app `exemplo_channels/exemplo/templates/exemplo`:
 
 
-{% highlight django %}
-
-
-{% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
-
-{% raw %}{% block content %}{% endraw %}
-  <form action="{% raw %}{% url 'exemplo:login' %}{% endraw %}" method="post">
-    {% raw %}{% csrf_token %}{% endraw %}
-    {% raw %{% for field in form %}{% endraw %}
-      <div>
-        {% raw %}{{ field.label_tag }}{% endraw %}
-        {% raw %}{{ field }}{% endraw %}
-      </div>
-    {% raw %}{% endfor %}{% endraw %}
-    <button type="submit">Log in</button>
-  </form>
-  <p>Don't have an account? <a href="{% raw %}{% url 'exemplo:sign_up' %}{% endraw %}">Sign up!</a></p>
-{% raw %}{% endblock content %}{% endraw %}
-
-{% endhighlight %}
+<BLOCO AQUI>
 
 
 Depois, atualize sua `exemplo_channels/exemplo/views.py` para que contemple as funções de `login` e `logout`, ficando assim:
@@ -357,27 +297,7 @@ Agora precisamos criar uma forma do usuário poder se cadastrar. Da mesma forma 
 Primeiro criamos o `template` de cadastro chamado `sign_up.html` no diretório: `exemplo_channels/exemplo/templates/exemplo`
 
 
-{% highlight django %}
-
-
-{% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
-
-{% raw %}{% block content %}{% endraw %}
-  <form action="{% raw %}{% url 'exemplo:sign_up' %}{% endraw %}" method="post">
-    {% raw %}{% csrf_token %}{% endraw %}
-    {% raw %}{% for field in form %}{% endraw %}
-      <div>
-        {% raw %}{{ field.label_tag }}{% endraw %}
-        {% raw %}{{ field }}{% endraw %}
-      </div>
-    {% raw %}{% endfor %}{% endraw %}
-    <button type="submit">Sign up</button>
-    <p>Already have an account? <a href="{% raw %}{% url 'exemplo:login' %}{% endraw %}">Log in!</a></p>
-  </form>
-{% raw %}{% endblock content %}{% endraw %}
-
-
-{% endhighlight %}
+<BLOCO AQUI>
 
 Agora criamos uma função com a funcionalidade de cadastrar o usuário em nosso app, adicione a seguinte função na views:
 
@@ -466,55 +386,7 @@ Observe que nós adicionamos `decorators` às funções para obter o usuário da
 
 Agora precisamos atualizar nosso template `exemplo_channels/exemplo/templates/exemplo/user_list.html` para adicionar a listagem dos usuários e também para que ele possa realizar o logout do nosso app, ficando da seguinte maneira:
 
-{% highlight django %}
-
-{% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
-
-{% raw %}{% block content %}{% endraw %}
-  <a href="{% raw %}{% url 'exemplo:logout' %}{% endraw %}">Log out</a>
-  <br>
-  <ul>
-    {% raw %}{% for user in users %}{% endraw %}
-      <!-- NOTA: Perceba o scape no username, isso evita ataques XSS. -->
-      <li data-username="{% raw %}{{ user.username|escape }}{% endraw %}">
-        {% raw %}{{ user.username|escape }}: {{ user.status|default:'Offline' }}{% endraw %}
-      </li>
-    {% raw %}{% endfor %}{% endraw %}
-  </ul>
-{% raw %}{% endblock content %}{% endraw %}
-
-{% raw %}{% block script %}{% endraw %}
-  <script>
-    var socket = new WebSocket('ws://' + window.location.host + '/users/');
-
-    socket.onopen = function open() {
-      console.log('WebSockets connection created.');
-    };
-
-    socket.onmessage = function message(event) {
-      var data = JSON.parse(event.data);
-      // NOTA: Perceba o scape no username, isso evita ataques XSS.
-      var username = encodeURI(data['username']);
-      var user = $('li').filter(function () {
-        return $(this).data('username') == username;
-      });
-
-      if (data['is_logged_in']) {
-        user.html(username + ': Online');
-      }
-      else {
-        user.html(username + ': Offline');
-      }
-    };
-
-    if (socket.readyState == WebSocket.OPEN) {
-      socket.onopen();
-    }
-  </script>
-{% raw %}{% endblock script %}{% endraw %}
-
-
-{% endhighlight %}
+<BLOCO AQUI>
 
 
 Observe que adicionamos um `event listerner` ao nosso WebSocket que pode lidar com mensagens do servidor. Quando recebemos uma mensagem, analisamos os dados JSON, procuramos pelo elemento `<li>` para o usuário fornecido e atualizamos o status desse usuário.

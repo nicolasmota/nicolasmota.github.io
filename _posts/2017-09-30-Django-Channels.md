@@ -28,7 +28,7 @@ No final deste artigo você será capaz de:
 
 Primeiro criamos um ambiente virtual com `pyenv` para isolar nossas dependências do projeto:
 
-{% highlight shell %}
+{% highlight bash %}
   mkdir exemplo_channels
   cd exemplo_channels
   pyenv virtualenv 3.6 exemplo_channels
@@ -37,7 +37,7 @@ Primeiro criamos um ambiente virtual com `pyenv` para isolar nossas dependência
 
 Instale o `Django`, `Django Channels` e o `ASGI Redis`, crie um app chamado `exemplo` e execute a `migrate`.
 
-{% highlight shell %}
+{% highlight bash %}
   pip install django==1.10 & channels==1.0.3 & asgi_redis==1.0.0
   django-admin.py startproject exemplo_channels
   cd exemplo_channels
@@ -49,19 +49,19 @@ Feito isso, baixe e instale o Redis
 
 Mac:
 
-{% highlight shell %}
+{% highlight bash %}
   brew install redis
 {% endhighlight %}
 
 Linux:
 
-{% highlight shell %}
+{% highlight bash %}
   apt-get install redis
 {% endhighlight %}
 
 Abra uma janela nova do terminal e deixe rodando o server do redis:
 
-{% highlight shell %}
+{% highlight bash %}
   redis-server start
 {% endhighlight %}
 
@@ -170,7 +170,7 @@ Vamos escrever `HTML` simples que possa se comunicar com o nosso servidor via We
 
 Crie um arquivo chamado `base.html` e adicione o seguinte código:
 
-{% raw %}
+{% highlight jinja %}
 ```
 <!doctype html>
 <html lang="en">
@@ -184,24 +184,24 @@ Crie um arquivo chamado `base.html` e adicione o seguinte código:
 <body>
   <div class="container">
     <br>
-    {% block content %}{% endblock content %}
+    {% raw %}{% block content %}{% endblock content %}{% endraw %}
   </div>
   <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
-  {% block script %}{% endblock script %}
+  {% raw %}{% block script %}{% endblock script %}{% endraw %}
 </body>
 </html>
 ``` 
-{% endraw %}
+{% endhighlight %}
 
 Crie um outro arquivo chamado `user_list.html` na mesma pasta que o `base.html`:
 
-{% raw %}
+{% highlight jinja %}
 ```
-{% extends 'exemplo/base.html' %}
+{% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
 
-{% block content %}{% endblock content %}
+{% raw %}{% block content %}{% endblock content %}{% endraw %}
 
-{% block script %}
+{% raw %}{% block script %}{% endraw %}
   <script>
     var socket = new WebSocket('ws://' + window.location.host + '/users/');
 
@@ -213,9 +213,9 @@ Crie um outro arquivo chamado `user_list.html` na mesma pasta que o `base.html`:
       socket.onopen();
     }
   </script>
-{% endblock script %}
+{% raw %}{% endblock script %}{% endraw %}
 ```
-{% endraw %}
+{% endhighlight %}
 
 
 ## Views
@@ -266,7 +266,7 @@ urlpatterns = [
 
 Volte para a pasta raiz do projeto e roda a sua aplicação django:
 
-{% highlight shell %}
+{% highlight bash %}
 ```
 (exemplo_channels)$ python manage.py runserver
 ```
@@ -274,7 +274,7 @@ Volte para a pasta raiz do projeto e roda a sua aplicação django:
 
 Quando você acessar `http://localhost:8000/`, você verá a seguinte mensagem printada no terminal: 
 
-{% highlight shell %}
+{% highlight bash %}
 ``` 
 [2017/09/30 13:51:37] HTTP GET / 200 [0.02, 127.0.0.1:52757]
 [2017/09/30 13:51:39] WebSocket HANDSHAKING /users/ [127.0.0.1:52789]
@@ -292,26 +292,26 @@ Primeiramente, precisamos criar uma página para que o usuário consiga se cadas
 Crie um novo arquivo `html` chamado `login.html` no diretório do app `exemplo_channels/exemplo/templates/exemplo`:
 
 
-{% raw %}
+{% highlight jinja %}
 ```
 
-{% extends 'exemplo/base.html' %}
+{% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
 
-{% block content %}
-  <form action="{% url 'exemplo:login' %}" method="post">
-    {% csrf_token %}
-    {% for field in form %}
+{% raw %}{% block content %}{% endraw %}
+  <form action="{% raw %}{% url 'exemplo:login' %}{% endraw %}" method="post">
+    {% raw %}{% csrf_token %}{% endraw %}
+    {% for field in form %}{% endraw %}
       <div>
-        {{ field.label_tag }}
-        {{ field }}
+        {% raw %}{{ field.label_tag }}{% endraw %}
+        {% raw %}{{ field }}{% endraw %}
       </div>
-    {% endfor %}
+    {% raw %}{% endfor %}{% endraw %}
     <button type="submit">Log in</button>
   </form>
-  <p>Don't have an account? <a href="{% url 'exemplo:sign_up' %}">Sign up!</a></p>
-{% endblock content %}
+  <p>Don't have an account? <a href="{% raw %}{% url 'exemplo:sign_up' %}{% endraw %}">Sign up!</a></p>
+{% raw %}{% endblock content %}{% endraw %}
 ```
-{% endraw %}
+{% endhighlight %}
 
 
 Depois, atualize sua `exemplo_channels/exemplo/views.py` para que contemple as funções de `login` e `logout`, ficando assim:
@@ -357,27 +357,27 @@ Agora precisamos criar uma forma do usuário poder se cadastrar. Da mesma forma 
 Primeiro criamos o `template` de cadastro chamado `sign_up.html` no diretório: `exemplo_channels/exemplo/templates/exemplo`
 
 
-{% raw %}
+{% highlight jinja %}
 ```
 
-{% extends 'exemplo/base.html' %}
+{% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
 
-{% block content %}
-  <form action="{% url 'exemplo:sign_up' %}" method="post">
-    {% csrf_token %}
-    {% for field in form %}
+{% raw %}{% block content %}{% endraw %}
+  <form action="{% url 'exemplo:sign_up' %}{% endraw %}" method="post">
+    {% raw %}{% csrf_token %}{% endraw %}
+    {% raw %}{% for field in form %}{% endraw %}
       <div>
-        {{ field.label_tag }}
-        {{ field }}
+        {% raw %}{{ field.label_tag }}{% endraw %}
+        {% raw %}{{ field }}{% endraw %}
       </div>
-    {% endfor %}
+    {% raw %}{% endfor %}{% endraw %}
     <button type="submit">Sign up</button>
-    <p>Already have an account? <a href="{% url 'exemplo:login' %}">Log in!</a></p>
+    <p>Already have an account? <a href="{% raw %}{% url 'exemplo:login' %}{% endraw %}">Log in!</a></p>
   </form>
-{% endblock content %}
+{% raw %}{% endblock content %}{% endraw %}
 
 ```
-{% endraw %}
+{% endhighlight %}
 
 Agora criamos uma função com a funcionalidade de cadastrar o usuário em nosso app, adicione a seguinte função na views:
 
@@ -466,24 +466,24 @@ Observe que nós adicionamos `decorators` às funções para obter o usuário da
 
 Agora precisamos atualizar nosso template `exemplo_channels/exemplo/templates/exemplo/user_list.html` para adicionar a listagem dos usuários e também para que ele possa realizar o logout do nosso app, ficando da seguinte maneira:
 
-{% raw %}
+{% highlight jinja %}
 ```
-{% extends 'exemplo/base.html' %}
+{% raw %}{% extends 'exemplo/base.html' %}{% endraw %}
 
-{% block content %}
-  <a href="{% url 'exemplo:logout' %}">Log out</a>
+{% raw %}{% block content %}{% endraw %}
+  <a href="{% raw %}{% url 'exemplo:logout' %}{% endraw %}">Log out</a>
   <br>
   <ul>
-    {% for user in users %}
+    {% raw %}{% for user in users %}{% endraw %}
       <!-- NOTA: Perceba o scape no username, isso evita ataques XSS. -->
-      <li data-username="{{ user.username|escape }}">
-        {{ user.username|escape }}: {{ user.status|default:'Offline' }}
+      <li data-username="{% raw %}{{ user.username|escape }}{% endraw %}">
+        {% raw %}{{ user.username|escape }}: {{ user.status|default:'Offline' }}{% endraw %}
       </li>
-    {% endfor %}
+    {% raw %}{% endfor %}{% endraw %}
   </ul>
-{% endblock content %}
+{% raw %}{% endblock content %}{% endraw %}
 
-{% block script %}
+{% raw %}{% block script %}{% endraw %}
   <script>
     var socket = new WebSocket('ws://' + window.location.host + '/users/');
 
@@ -511,10 +511,10 @@ Agora precisamos atualizar nosso template `exemplo_channels/exemplo/templates/ex
       socket.onopen();
     }
   </script>
-{% endblock script %}
+{% raw %}{% endblock script %}{% endraw %}
 
 ```
-{% endraw %}
+{% endhighlight %}
 
 
 Observe que adicionamos um `event listerner` ao nosso WebSocket que pode lidar com mensagens do servidor. Quando recebemos uma mensagem, analisamos os dados JSON, procuramos pelo elemento `<li>` para o usuário fornecido e atualizamos o status desse usuário.
@@ -537,7 +537,7 @@ Nosso app criará uma instância de `LoggedInUser` quando um usuário efetuar lo
 
 Agora precisamos atualizar nossa base de dados para que nossa model seja realmente criada, pra isso rodamos o comando do django `makemigrations` para criar o `schema` da tabela e o comando `migrate` para que seja criada a tabela em si.
 
-{% highlight shell %}
+{% highlight bash %}
 ```
 (exemplo_channels)$ python manage.py makemigrations
 (exemplo_channels)$ python manage.py migrate

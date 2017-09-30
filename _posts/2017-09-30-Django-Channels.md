@@ -643,6 +643,7 @@ def on_user_logout(sender, **kwargs):
 
 Precisamos também fazer com que os `signals` fiquem disponiveis para nosso app, pra isso, precisamos alterar o arquivo `apps.py` de nosso app e importar nosso arquivo `signals`:
 
+{% highlight django %}
 ```
 from django.apps import AppConfig
 

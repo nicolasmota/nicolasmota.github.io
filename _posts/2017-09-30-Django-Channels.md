@@ -687,7 +687,7 @@ Nesse tutorial, conseguimos mostrar pouco de bastante coisas, mostramos como o D
 
 O número de aplicações em `real time` que você pode criar com o Django Channels é infinita, conseguimos criar dashboards, sistemas de comunicação, bate papos online, atualizações de status de pedidos, jogos multiplayers e etc., basta colocar a criatividade em prática.  aqui mostramos o básico do básico do Django Channels, acesse a [documentação](https://channels.readthedocs.io/en/stable/) e se divirta.
 
-o código desse tutorial se encontra em: https://github.com/nicolasmota/exemplo_channels
+o código desse tutorial se encontra em: [github nicolas](https://github.com/nicolasmota/exemplo_channels)
 
 
 Este é um tutorial traduzido e baseado no divulgado pela [Real Python](https://realpython.com/blog/python/getting-started-with-django-channels/)

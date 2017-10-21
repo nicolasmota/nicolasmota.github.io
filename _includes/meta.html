@@ -4,6 +4,16 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
     <meta name="google-site-verification" content="TtFHSnrC4MTxjxH6CwcFyczHfH-A0sUwE9591zGj9F8" />
     <meta name="google-site-verification" content="K5FB-E9L6FADX7UGQ2b8L-aNabkRRLKOiL5Baud7BAE" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-108443157-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-108443157-1');
+    </script>
+
 
     {% if page.excerpt %}
     <meta name="description" content="{{ page.excerpt| strip_html }}" />
